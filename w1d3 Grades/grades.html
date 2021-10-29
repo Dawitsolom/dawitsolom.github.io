@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Retrieve Grade</title>
+        <link rel="stylesheet" type="text/css" href="./styleme.css">
+
+    </head>
+    <body>
+        <h1>Retrieve your grade</h1>
+        <div class="cont">
+        <form action="http://mumstudents.org/params.php">
+            <div class="name">
+            <label class="mainlabel" for="name">Name:</label>
+            <input class ="txt" type="text" id="name" name="name"><br>
+            <label class="mainlabel" for="id">Student ID:</label>
+            <input class ="txt" type="text" id="id" name="id"><br>   
+        </div>
+    <div class="radios">
+    <br>
+    <label  class="mainlabel" for="name">Pick entry:</label>
+            <label class="entry"  for="february"><input  type="radio" id="february" name="rad" value="February">February</label>
+           <label class="entry" for="may"><input type="radio" id="may" name="rad" value="may">May </label>
+            <label class="entry" for="august"><input  type="radio" id="august" name="rad" value="august">August</label>
+            <label class="entry"  for="november"><input type="radio" id="november" name="rad" value="november"> November</label>
+        </div>
+    <div class="dropdown">
+        <label  class="mainlabel" for="cources">Choose a Course:</label>
+
+            <select class="txt" name="cources" id="cources">
+            <option value="assignment1">Assignment 1</option>
+            <option value="assignment2">Assignment 2</option>
+            <option value="assignment3">Assignment 3</option>
+            <option value="assignment4">Assignemnt 4</option>
+            </select>
+        <br>
+        </div>
+        <input class="btn" type="submit" id="submit" value="Get Grades"> 
+        <div>
+            <div class="checkbox">
+        <input type="checkbox" id="certify" name="certify" value="certify">
+        <label for="certify"> I certify that the information I have given is correct.</label><br>
+    </div>
+
+    </div>
+          </form>
+        </div>
+    </body>
+</html> 

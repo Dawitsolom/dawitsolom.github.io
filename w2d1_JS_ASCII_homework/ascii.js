@@ -1,75 +1,84 @@
-window.onload = function () {
-    "use strict";
+(function(){
 
-    const text_area = document.getElementById("text-area");
-    const start_button = document.getElementById("start");
-    const stop_button = document.getElementById('stop');
-    const animation_options = document.getElementById('animation');
-    const font_size = document.getElementById('fontsize');
-    const turbo_button = document.getElementById('turbo');
+    "use strict"
 
-    let animation_speed = 250;
-    let animator;
+    window.onload = function(){
+        document.getElementById("animationSelector").onchange = getAnimationPage;
+        document.getElementById("sizeSelector").onchange = setAnimationSize;
+        document.getElementById("startBtn").onclick = animationLooper;
+        document.getElementById("stopBtn").onclick = animationStopper;
+    };
 
-    function clearTextArea() {
-        text_area.innerHTML = "";
+    function getAnimationPage(){
+        let e = document.getElementById("animationSelector");
+        let v = document.getElementById("viewBoard")
+        if(e.value === "blank"){
+            v.innerHTML = BLANK;
+        }else if(e.value === "exercise"){
+            v.innerHTML = EXERCISE;
+        }else if(e.value === "juggler"){
+            v.innerHTML = JUGGLER;
+        }else if(e.value === "bike"){
+            v.innerHTML = BIKE;
+        }else if(e.value === "dive"){
+            v.innerHTML = DIVE;
+        }else if(e.value === "custom"){
+            v.innerHTML = CUSTOM;
+            v.readOnly = false;
+        }
     }
 
-    function setTextAreaWithAnimType(anim) {
-        clearTextArea();
-        text_area.innerHTML = anim;
+    function setAnimationSize(){
+        let e = document.getElementById("sizeSelector");
+        let v = document.getElementById("viewBoard");
+        if(e.value === "t"){
+            v.style.fontSize = "7pt";
+        }else if(e.value === "s"){
+            v.style.fontSize = "10pt";
+        }else if(e.value === "m"){
+            v.style.fontSize = "12pt";
+        }else if(e.value === "l"){
+            v.style.fontSize = "16pt";
+        }else if(e.value === "xl"){
+            v.style.fontSize = "24pt";
+        }else if(e.value === "xxl"){
+            v.style.fontSize = "42pt";
+        }
     }
 
-    const setAnimation = (animation_char) => {
-        if (animation_char === "" || animation_char === null) return;
+    var x = null;
+    var i;
 
-        //get the first animation from the animations characters
-        const characters = animation_char.split("=====\n");
-        clearInterval(animator)
+    function animationLooper(){
+        let v = document.getElementById("viewBoard");
+        let arr = v.innerHTML.split("=====");
+        let s;
+        if(document.getElementById("turbo").checked){
+            s = 50;
+        }else{
+            s = 250;
+        }
+        x = setInterval(myAnimate, s);
 
-        let count = 0
-        animator = setInterval(() => {
-            if (count >= characters.length) {
-                count = 0
+        function myAnimate(){
+            if(i === undefined){
+                i = 0;
+            }else if(i < (arr.length - 1)){
+                i = i + 1;
+            }else if(i === (arr.length - 1)){
+                i = 0;
             }
-            setTextAreaWithAnimType(characters[count])
-            ++count;
-        }, animation_speed);
+            v.innerHTML = arr[i];
+            document.getElementById("startBtn").disabled = true;
+            document.getElementById("animationSelector").disabled = true;
+        }
     }
 
-    animation_options.onchange = (e) => {
-        clearTextArea();
-        setTextAreaWithAnimType(ANIMATIONS[e.target.value])
+    function animationStopper(){
+        clearInterval(x);
+        getAnimationPage();
+        document.getElementById("startBtn").disabled = false;
+        document.getElementById("animationSelector").disabled = false;
     }
 
-    start_button.onclick = (e) => {
-        start_button.disabled = true;
-        animation_options.disabled = true;
-        stop_button.disabled = false;
-        setAnimation(ANIMATIONS[animation_options.value])
-    }
-
-    stop_button.onclick = (e) => {
-        stop_button.disabled = true;
-        start_button.disabled = false;
-        animation_options.disabled = false;
-        clearInterval(animator)
-        setTextAreaWithAnimType(ANIMATIONS[animation_options.value])
-    }
-
-    font_size.onchange = (e) => {
-        if(e.target.value === "" || e.target.value === null) return;
-
-        if(e.target.value === "Tiny") text_area.style.fontSize = "x-small";
-        if(e.target.value === "Small") text_area.style.fontSize = "small";
-        if(e.target.value === "Medium") text_area.style.fontSize = "small";
-        if(e.target.value === "Large") text_area.style.fontSize = "large";
-        if(e.target.value === "Extra Large") text_area.style.fontSize = "x-large";
-        if(e.target.value === "XXL") text_area.style.fontSize = "xx-large";
-    }
-
-    turbo_button.onchange = (e) => {
-        animation_speed = e.target.checked ? 50 : 250; 
-        setAnimation(ANIMATIONS[animation_options.value]);
-    }
-}
+})();
